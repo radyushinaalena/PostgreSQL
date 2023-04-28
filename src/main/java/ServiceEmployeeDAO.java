@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class ServiceEmployeeDAO implements EmployeeDAO {
 
     @Override
-    public List<Employee> createEmployee() {
+    public Employee createEmployee() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите имя");
         String firstName = scanner.nextLine();
