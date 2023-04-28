@@ -1,7 +1,7 @@
 import java.util.List;
 
 public interface EmployeeDAO {
-    Employee createEmployee();
+    void createEmployee();
     List<Employee> getEmployeeById(int id);
     List<Employee> getAllEmployees();
     void updateEmployee(Employee id);

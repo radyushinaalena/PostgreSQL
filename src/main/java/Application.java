@@ -7,7 +7,7 @@ public class Application {
 
         employeeDAO.createEmployee();
 
-        employeeDAO.deleteEmployee(employeeDAO.getEmployeeById(33).get(0));
+        employeeDAO.deleteEmployee(employeeDAO.getEmployeeById(32).get(0));
 
         employeeDAO.updateEmployee(employeeDAO.getEmployeeById(18).get(0));
 

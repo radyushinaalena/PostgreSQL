@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class ServiceEmployeeDAO implements EmployeeDAO {
 
     @Override
-    public Employee createEmployee() {
+    public void createEmployee() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите имя");
         String firstName = scanner.nextLine();
@@ -34,7 +34,6 @@ public class ServiceEmployeeDAO implements EmployeeDAO {
         entityManager.getTransaction().commit();
         entityManager.close();
 
-        return null;
     }
 
     @Override
