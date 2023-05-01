@@ -1,14 +1,27 @@
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "city")
 public class City {
-    private int cityId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer city_Id;
+    @Column(name = "city_name")
     private String cityName;
 
-    public City(int cityId, String cityName) {
-        this.cityId = cityId;
+    @OneToMany(mappedBy = "city_Id", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Employee> employees;
+
+    public City(String cityName) {
         this.cityName = cityName;
     }
 
+    public City() {
+    }
+
     public int getCityId() {
-        return cityId;
+        return city_Id;
     }
 
     public String getCityName() {
@@ -17,5 +30,16 @@ public class City {
 
     public void setCityName(String cityName) {
         this.cityName = cityName;
+    }
+
+    public void setCityId(int cityId) {
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
     }
 }
