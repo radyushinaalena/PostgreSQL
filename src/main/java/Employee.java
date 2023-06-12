@@ -5,7 +5,7 @@ import javax.persistence.*;
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
@@ -14,17 +14,17 @@ public class Employee {
     private String gender;
     @Column(name = "age")
     private int age;
-    @Column (name = "city_id")
-    private int cityId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn (name  = "city_id")
+    private City city_Id;
 
 
-    public Employee( int id, String firstName, String lastName, String gender, int age, int cityId) {
-        this.id = id;
+    public Employee(String firstName, String lastName, String gender, int age, City cityId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.age = age;
-        this.cityId = cityId;
+        this.city_Id = cityId;
     }
     public Employee( ) {
     }
@@ -69,11 +69,23 @@ public class Employee {
         this.age = age;
     }
 
-    public int getCityId() {
-        return cityId;
+    public City getCityId() {
+        return city_Id;
     }
 
-    public void setCityId(int cityId) {
-        this.cityId = cityId;
+    public void setCityId(City cityId) {
+        this.city_Id = cityId;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", gender='" + gender + '\'' +
+                ", age=" + age +
+                ", city_Id=" + city_Id +
+                '}';
     }
 }

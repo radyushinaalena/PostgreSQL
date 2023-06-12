@@ -6,38 +6,18 @@ import java.util.Scanner;
 public class ServiceEmployeeDAO implements EmployeeDAO {
 
     @Override
-    public void createEmployee() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Введите имя");
-        String firstName = scanner.nextLine();
-        System.out.println("Введите фамилию");
-        String lastName = scanner.nextLine();
-        System.out.println("Введите пол");
-        String gender = scanner.nextLine();
-        System.out.println("Введите возраст");
-        String age = scanner.nextLine();
-        System.out.println("Введите id города");
-        String cityId = scanner.nextLine();
-
-        Employee employee = new Employee();
-        employee.setId(null);
-        employee.setFirstName(firstName);
-        employee.setLastName(lastName);
-        employee.setGender(gender);
-        employee.setAge(Integer.parseInt(age));
-        employee.setCityId(Integer.parseInt(cityId));
-
+    public void createEmployee(Employee employee) {
         EntityManager entityManager = Config.getEm();
-
         entityManager.getTransaction().begin();
+        City city = entityManager.find(City.class, employee.getCityId().getCityId());
+        employee.setCityId(city);
         entityManager.persist(employee);
         entityManager.getTransaction().commit();
         entityManager.close();
-
     }
 
     @Override
-    public List<Employee> getEmployeeById(int id) {
+    public Employee getEmployeeById(int id) {
 
 
         EntityManager entityManager = Config.getEm();
@@ -51,11 +31,11 @@ public class ServiceEmployeeDAO implements EmployeeDAO {
         query.setParameter("id", id);
 
         // Выполняем запрос и получаем результат в виде списка студентов
-        List<Employee> employeeList = query.getResultList();
+        Employee employee = query.getSingleResult();
 
         // Завершаем транзакцию
         entityManager.getTransaction().commit();
-        return employeeList;
+        return employee;
     }
 
     @Override
@@ -64,7 +44,7 @@ public class ServiceEmployeeDAO implements EmployeeDAO {
         EntityManager entityManager = Config.getEm();
         entityManager.getTransaction().begin();
 
-        String jpqlQuery ="select e from Employee e order by e.id";
+        String jpqlQuery = "select e from Employee e order by e.id";
         TypedQuery<Employee> query = entityManager.createQuery(jpqlQuery, Employee.class);
 
         List<Employee> employeeList = query.getResultList();
@@ -88,13 +68,13 @@ public class ServiceEmployeeDAO implements EmployeeDAO {
         System.out.println("Введите возраст");
         String age = scanner.nextLine();
         System.out.println("Введите id города");
-        String cityId = scanner.nextLine();
-
+        int cityId = scanner.nextInt();
+        CityDAO cityDAO = new ServiceCityDAO();
         id.setFirstName(firstName);
         id.setLastName(lastName);
         id.setGender(gender);
         id.setAge(Integer.parseInt(age));
-        id.setCityId(Integer.parseInt(cityId));
+        id.setCityId(cityDAO.getCityByID(cityId));
 
         entityManager.merge(id);
         entityManager.getTransaction().commit();
